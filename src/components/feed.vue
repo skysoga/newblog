@@ -13,13 +13,13 @@
 					<div class="arInfo"><span class="tag"># Web前端</span><span class="margin-l10">2017-05-18</span></div>
 				</div>
 				<div class="arContent">
-					<h2><a href="" target="_blank">如果不工作，你想过怎样的生活？</a></h2>
+					<h3><a href="" target="_blank">如果不工作，你想过怎样的生活？</a></h3>
 					<p>“你品尝了夜的巴黎，你踏过下雪的北京，你熟记书本里的每一句你最爱的真理，却说不出我的原因。”我的记忆从桌子下面爬上来。死者的气息是一阵微风和思想：谁将会解答它？</p>
 				</div>
 				<div class="arTools clearfix">
 					<a href="" target="_blank">查看原文</a>
 					<div class="ar-control float-right">
-						<span><i class="fa fa-trash-o"></i> 删除</span>
+						<span @click="deleteItem"><i class="fa fa-trash-o"></i> 删除</span>
 						<span><i class="fa fa-eye"></i> 26</span>
 						<span><i class="fa fa-heart-o"></i> 32</span>
 						<span><i class="fa fa-comment-o"></i> 32</span>
@@ -42,13 +42,13 @@
 				</div>
 				<div class="arContent long-ar">
 					<a href="" target="_blank"><img src="../../static/img/u31.png" alt="">
-					<h2>如果不工作，你想过怎样的生活？</h2></a>
+					<h3>如果不工作，你想过怎样的生活？</h3></a>
 					<p>“你品尝了夜的巴黎，你踏过下雪的北京，你熟记书本里的每一句你最爱的真理，却说不出我的原因。”我的记忆从桌子下面爬上来。死者的气息是一阵微风和思想：谁将会解答它？</p>
 				</div>
 				<div class="arTools clearfix">
 					<a href="" target="_blank">查看原文</a>
 					<div class="ar-control float-right">
-						<span><i class="fa fa-trash-o"></i> 删除</span>
+						<span @click="deleteItem1"><i class="fa fa-trash-o"></i> 删除</span>
 						<span><i class="fa fa-eye"></i> 26</span>
 						<span><i class="fa fa-heart-o"></i> 32</span>
 						<span><i class="fa fa-comment-o"></i> 32</span>
@@ -70,7 +70,7 @@
 					<div class="arInfo"><span class="tag"># Web前端</span><span class="margin-l10">2017-05-18</span></div>
 				</div>
 				<div class="arContent">
-					<h2><a href="" target="_blank">可以没有标题</a></h2></a>
+					<h3><a href="" target="_blank">可以没有标题</a></h3></a>
 					<div class="row small-up-2 medium-up-3 large-up-3">
 						<div class="column column-block">
 						    <img src="../../static/img/u2.jpg" alt="">
@@ -155,7 +155,7 @@
 					<div class="arInfo"><span class="tag"># Web前端</span><span class="margin-l10">2017-05-18</span></div>
 				</div>
 				<div class="arContent long-ar">
-					<h2>标题不要？</h2>
+					<h3>标题不要？</h3>
 					<div class="vedio-box">
 						<video id="myVideo" width="100%" poster="../../static/img/12.jpg">
 						  <source src="http://filecenter.jiefeng.me:88/res_base/rjcms/video/2017/03/30/58dcc5d88e31c668b44d34f0.mp4" type="video/mp4">
@@ -279,16 +279,61 @@
 				<label class="type">音频</label>
 			</li>
 		</ul>
+		<lg-reveal :open="alert" title="确定删除？" @revealClose="alert=false">
+			<div class="row" slot="body">
+		  		<div class="large-24 columns">
+		  			
+		  		</div>
+		  	</div>
+		  	<div class="reveal-footer" slot="footer">
+				<div class="row">
+					<div class="small-24 columns text-right padding-t">
+						<a class="button hollow radius secondary small" @click="alert=false"> 取 消 </a>
+						<a class="small button radius"> 提 交 </a>
+					</div>
+				</div>
+			</div>
+		</lg-reveal>
+		<lg-reveal :open="show" title="烦烦烦？" @revealClose="show=false">
+			<div class="row" slot="body">
+		  		<div class="large-24 columns">
+		  			烦烦烦
+		  		</div>
+		  	</div>
+		  	<div class="reveal-footer" slot="footer">
+				<div class="row">
+					<div class="small-24 columns text-right padding-t">
+						<a class="button hollow radius secondary small" @click="show=false"> 取 消 </a>
+						<a class="small button radius"> 提 交 </a>
+					</div>
+				</div>
+			</div>
+		</lg-reveal>
 	</div>
 </template>
 <script>
+  import LgReveal from '@/components/reveal'
   export default {
     data () {
-      return {}
+      return {
+        alert: false,
+        show: false
+      }
+    },
+    methods: {
+      deleteItem () {
+        this.alert = true
+      },
+      deleteItem1 () {
+        this.show = true
+      }
+    },
+    components: {
+      LgReveal
     }
   }
 </script>
-<style scoped="" lang="less">
+<style lang="less">
 	@import url("../../static/less/variable.less");
 	.img50.img{width: 50px;border-radius: 50%;}
 	.content50.content{padding-left: 66px;min-height: 50px;margin-bottom: 1rem;}
@@ -307,7 +352,7 @@
 	/*长文*/
 	.long-ar a{display:block;position: relative;margin-bottom: 1rem;}
 	.long-ar img{width: 100%;}
-	.long-ar h2{
+	.long-ar h3{
 		position: absolute;
 	    border-bottom: 0;
 	    text-align: center;

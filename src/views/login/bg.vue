@@ -32,17 +32,6 @@
       function createColorStyle (r, g, b) {
         return 'rgba(' + r + ',' + g + ',' + b + ', 0.8)'
       }
-      function mixComponents (comp1, weight1, comp2, weight2) {
-        return (comp1 * weight1 + comp2 * weight2) / (weight1 + weight2)
-      }
-      function averageColorStyles (dot1, dot2) {
-        var color1 = dot1.color
-        var color2 = dot2.color
-        var r = mixComponents(color1.r, dot1.radius, color2.r, dot2.radius)
-        var g = mixComponents(color1.g, dot1.radius, color2.g, dot2.radius)
-        var b = mixComponents(color1.b, dot1.radius, color2.b, dot2.radius)
-        return createColorStyle(Math.floor(r), Math.floor(g), Math.floor(b))
-      }
       function Color (min) {
         min = min || 0
         this.r = colorValue(min)
@@ -85,24 +74,6 @@
           dot.y += dot.vy
         }
       }
-      function connectDots () {
-        for (var i = 0; i < dots.nb; i++) {
-          for (var j = 0; j < dots.nb; j++) {
-            var idot = dots.array[i]
-            var jdot = dots.array[j]
-            if ((idot.x - jdot.x) < dots.distance && (idot.y - jdot.y) < dots.distance && (idot.x - jdot.x) > -dots.distance && (idot.y - jdot.y) > -dots.distance) {
-              if ((idot.x - mousePosition.x) < dots.d_radius && (idot.y - mousePosition.y) < dots.d_radius && (idot.x - mousePosition.x) > -dots.d_radius && (idot.y - mousePosition.y) > -dots.d_radius) {
-                ctx.beginPath()
-                ctx.strokeStyle = averageColorStyles(idot, jdot)
-                ctx.moveTo(idot.x, idot.y)
-                ctx.lineTo(jdot.x, jdot.y)
-                ctx.stroke()
-                ctx.closePath()
-              }
-            }
-          }
-        }
-      }
       function drawDots () {
         for (var i = 0; i < dots.nb; i++) {
           var dot = dots.array[i]
@@ -112,7 +83,6 @@
       function animateDots () {
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         moveDots()
-        connectDots()
         drawDots()
         requestAnimationFrame(animateDots)
       }
@@ -136,7 +106,6 @@
     height: 100vh;
     left: 0;
     top: 0;
-    z-index: 1;
-    background: #eee;
+    z-index: -1;
   }
 </style>

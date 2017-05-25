@@ -1,11 +1,12 @@
 <template>
 	<header>
-		<h1 class="hide">企业内网</h1>
 		<div class="row">
-			<div class="large-3 column">
-			    <a class="logo float-left" href=""><img src="" alt="logo"></a>
+			<div class="large-4 column">
+			    <h1 class="logo float-left" href="">
+			    	<a href="">企业内网</a>
+			   </h1>
 			</div>
-			<div class="large-9 column">
+			<div class="large-8 column">
 			    <nav class="menu float-left">
 					<li v-for="item in navData"><a :href="item.href">{{item.name}}</a></li>
 				</nav>
@@ -34,6 +35,9 @@
     }
   }
 </script>
-<style scoped="">
-	header{height: 60px;line-height: 60px;background: #fff;}
+<style scoped="" lang="less">
+	@import url("../../static/less/variable.less");
+	header{height: 60px;line-height: 60px;background: #fff;padding-top: 10px;}
+	.logo{margin: 0;}
+	.logo a{font-family: "freight-sans-pro",sans-serif;color: @primary-color;}
 </style>
