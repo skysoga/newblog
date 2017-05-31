@@ -95,6 +95,8 @@
 							</div>
 						</div>
 					</section>
+					<a class="button" @click="open">notice</a>
+					<a class="button" @click="close">close</a>
 				</div>
 			</div>
 		</main>
@@ -104,6 +106,7 @@
   import LgHeader from '@/components/header'
   import Bg from '../login/bg.vue'
   import LgTag from '@/components/tag'
+  var aaa = {}
   export default {
     data () {
       return {
@@ -125,6 +128,17 @@
     methods: {
       add () {
         this.grouptag.push('11')
+      },
+      open () {
+        aaa = this.$notify.success({
+          title: '成功',
+          message: '这是一条成功的提示消息',
+          type: 'info',
+          duration: 0
+        })
+      },
+      close () {
+        aaa.close()
       }
     }
   }
