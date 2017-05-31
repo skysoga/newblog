@@ -61,34 +61,14 @@
 							</ul>
 						</lg-dropdown>
 					</li>
-					<li class="docbg">
-						<div class="music-box">
-							<div class="media-object">
-								<div class="media-object-section">
-							    	<img src="../../../static/img/3.png">
-							    	<img class="music-run fa-spin" alt="music" src="../../../static/img/music.png">
-							  	</div>
-							  	<div class="media-object-section">
-							    	<div class="title14">
-							    		一声叹息
-							    	</div>
-							    	<div class="docInfo">
-							    		<span>任灿</span>
-							    	</div>
-							  	</div>
-							</div>
-						</div>
-						<lg-progress type="circle" :width="40" :percentage="progress.doc2" status="exception"></lg-progress>
-						<lg-dropdown size="small" type="1" :props="props"><i class="fa fa-ellipsis-h"></i>
-							<ul slot="dropdown">
-								<li>li</li>
-								<li>li</li>
-								<li>li</li>
-								<li>li</li>
-							</ul>
-						</lg-dropdown>
-					</li>
 				</ul>
+				<div class="row">
+				  <div class="large-24 columns">
+				    <form novalidate>
+				      <lg-input :pattern="patterns"></lg-input>
+				    </form>
+				  </div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -96,6 +76,7 @@
 <script>
   import LgProgress from '@/components/progress'
   import LgDropdown from '@/components/dropdown'
+  import LgInput from '@/components/input'
   export default {
     data () {
       return {
@@ -103,6 +84,7 @@
           doc: 100,
           doc2: 60
         },
+        patterns: 'alpha_numeric',
         props: {
           hollow: 'hollow',
           cusclass: 'list-btn'
@@ -116,13 +98,14 @@
     },
     components: {
       LgProgress,
-      LgDropdown
+      LgDropdown,
+      LgInput
     }
   }
 </script>
 <style>
 	.file-list{padding: 1rem;}	
-	.file-list li{list-style: none;}
+	.file-list li,.dropdown-pane li{list-style: none;}
 	.file-list li:last-child{margin-bottom: 0;}
 	.file-list li .lg-progress{position: absolute;right: 3rem;top: 1rem;}
 	.file-list li .dropdown{
@@ -135,4 +118,5 @@
 	    height: 20px;
 	    text-align: center;
 	}
+	.list-btn{display: block;}
 </style>

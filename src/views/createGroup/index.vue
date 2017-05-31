@@ -37,7 +37,9 @@
 									<label class="h36 text-right">标签：</label>
 								</div>
 								<div class="large-20 small-24 column">
-									<lg-tag :tags="grouptag" type="warning" :recTags="rectag" @close="handleClose"></lg-tag>
+								  {{grouptag}}
+								  <div @click="add">add</div>
+									<lg-tag v-model="grouptag" type="warning" :recTags="rectag"></lg-tag>
 								</div>
 							</div>
 							<div class="row">
@@ -107,8 +109,8 @@
       return {
         groupname: '',
         groupdesc: '',
-        grouptag: [],
-        rectag: ['你好', '推荐标签'],
+        grouptag: ['你好0', 'd', '你好3', '你好', '2', '顶顶顶'],
+        rectag: ['0', '1', '2', '你好3', '4', '顶顶顶'],
         selected: 'A',
         options: ['A', 'B']
       }
@@ -121,8 +123,8 @@
     mounted () {
     },
     methods: {
-      handleClose (tag) {
-        this.grouptag.splice(this.grouptag.indexOf(tag), 1)
+      add () {
+        this.grouptag.push('11')
       }
     }
   }

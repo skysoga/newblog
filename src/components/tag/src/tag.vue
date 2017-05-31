@@ -1,36 +1,45 @@
 <template>
   <div class="lg-tag-box">
   	<div>
-    <span
-      class="lg-tag"
-      :class="[type ? 'bg' + type : '', {'is-hit': hit}]"
-      :style="{backgroundColor: color}"
-      v-for='tag in tags'
-      :key="tag"
-      >
-      {{tag}}
-      <i
-        @click="handleClose(tag)">×</i>
-    </span>
-  	<input
-	  class="add-new-tag"
-	  v-if="inputVisible"
-	  type="text"
-	  ref="saveTagInput"
-	  v-model="inputValue"
-	  @keyup.enter="handleInputConfirm"
-	  @blur="handleInputConfirm"
-	>
-  	<button v-else class="button tiny hollow" @click="showInput">+ New Tag</button>
+      <span
+          class="lg-tag"
+          :class="[type ? 'bg' + type : '', {'is-hit': hit}]"
+          :style="{backgroundColor: color}"
+          v-for='(tag, index) in tags'
+          :key="tag"
+          @click.stop="showSpaninput(tag)"
+        >
+          <span v-if="!tag.inp">{{tag.val}}</span>
+          <input 
+            class="add-new-tag"
+            type="text"
+            v-if="tag.inp"
+            v-model="spanVal"
+            @keyup.enter="changeTag(index)"
+            @blur="changeTag(index)"
+            ref="changeValue"
+          >
+          <i @click.self.stop="handleClose(tag)">×</i>
+      </span>
+    	<input
+    	  class="add-new-tag"
+    	  v-if="inputVisible"
+    	  type="text"
+    	  ref="saveTagInput"
+    	  v-model="inputValue"
+    	  @keyup.enter="handleInputConfirm"
+    	  @blur="handleInputConfirm"
+    	>
+    	<button v-else class="button tiny hollow" @click="showInput">+ New Tag</button>
   </div>
   <div class="recTags" v-if="recTags">
   		<span
-          	class="lg-tag"
+          class="lg-tag"
       		:class="[type ? 'bg-' + type : '', {'is-hit': hit}]"
       		:style="{backgroundColor: color}"
       		v-for='(tag, index) in recTags'
       		:key="tag"
-      		@click="handleAdd(tag)"
+      		@click="addTags(tag)"
       		v-if="!currtag['curr' +index]"
       	>
       	<i class="fa fa-plus"></i> {{tag}}
@@ -54,7 +63,7 @@
       hit: Boolean,
       closeTransition: Boolean,
       color: String,
-      tags: {
+      value: {
         type: Array,
         default: function () {
           return []
@@ -70,9 +79,13 @@
     data () {
       return {
         currtag: {},
+        saveTagindex: [],
         inputVisible: false,
         inputValue: '',
-        resultTags: []
+        spanVal: '',
+        visible: [],
+        resultTags: [],
+        tags: []
       }
     },
     computed: {
@@ -89,23 +102,72 @@
       }
     },
     mounted () {
+      this.initTags(this.value)
       this.rectag = this.recTags
     },
     watch: {
-      tags (val, old) {
-        for (let i = 0; i < val.length; i++) {
-          var j = this.recTags.indexOf(val[i])
-          if (j >= 0) {
-            this.currtag['curr' + j] = true
-          }
+      value (val, old) {
+        let tmpTags = this.tags.map(t => t.val)
+        if (val.length !== this.tags.length || JSON.stringify(val) !== JSON.stringify(tmpTags)) {
+          console.log('ddd')
+          this.initTags(val)
+        }
+      },
+      saveTagindex (val) {
+        var length = this.recTags.length
+        for (let i = 0; i < length; i++) {
+          this.currtag['curr' + i] = false
+        }
+        for (var v of this.saveTagindex) {
+          this.currtag['curr' + v] = true
         }
       }
     },
     methods: {
+      initTags (tags) {
+        var a = tags
+        var b = this.recTags
+        for (var i = 0; i < b.length; i++) {
+          var temp = b[i]
+          for (var j = 0; j < a.length; j++) {
+            if (temp === a[j]) {
+              this.saveTagindex.push(i)
+              break
+            }
+          }
+        }
+        this.tags = tags.map(t => ({val: t, inp: false}))
+      },
+      addTags (tag) {
+        this.tags.push({
+          val: tag,
+          inp: false
+        })
+        this.compare(tag)
+        this.$emit('input', this.tags.map(t => t.val))
+      },
+      compare (tag) {
+        var len = this.recTags.length
+        for (let i = 0; i < len; i++) {
+          if (tag === this.recTags[i]) {
+            this.saveTagindex.push(i)
+          }
+        }
+      },
       handleClose (tag) {
-        var i = this.recTags.indexOf(tag)
-        this.currtag['curr' + i] = false
-        this.$emit('close', tag)
+        this.delsameTagindex(tag)
+        this.tags.splice(this.tags.indexOf(tag), 1)
+        this.$emit('input', this.tags.map(t => t.val))
+      },
+      delsameTagindex (tag) {
+        var i = this.recTags.indexOf(tag.val)
+        var obj = this.saveTagindex
+        let len = obj.length
+        for (let j = 0; j < len; j++) {
+          if (i === this.saveTagindex[j]) {
+            this.saveTagindex.splice(j, 1)
+          }
+        }
       },
       showInput () {
         this.inputVisible = true
@@ -113,22 +175,40 @@
           this.$refs.saveTagInput.focus()
         })
       },
+      showSpaninput (i) {
+        i.inp = true
+        this.spanVal = ''
+        this.$nextTick(_ => {
+          this.$refs.changeValue[0].focus()
+        })
+      },
       handleInputConfirm () {
         this.inputVisible = false
         let val = this.inputValue ? this.inputValue : ''
         if (!val) return
         for (let i of this.tags) {
-          if (i === val) {
+          if (i.val === val) {
             alert('已经存在了')
             this.inputValue = ''
             return
           }
         }
-        this.tags.push(this.inputValue)
+        this.addTags(this.inputValue)
+        this.$emit('input', this.tags.map(t => t.val))
         this.inputValue = ''
       },
-      handleAdd (tag) {
-        this.tags.push(tag)
+      changeTag (index) {
+        this.tags[index].inp = false
+        let val = this.spanVal ? this.spanVal : ''
+        if (!val) return
+        for (let i of this.tags) {
+          if (i.val === val) {
+            alert('已经存在了')
+            return
+          }
+        }
+        this.tags[index].val = this.spanVal
+        this.$emit('input', this.tags.map(t => t.val))
       }
     }
   }

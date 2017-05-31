@@ -1,5 +1,5 @@
 import Popper from 'popper.js'
-
+// popper.js 修改过
 const popperEmitter = {
   props: {
     always: {
@@ -59,6 +59,7 @@ const popperEmitter = {
     hidePopper () {
       this.isShow = false
       this.timer = setTimeout(() => {
+        console.log('this', this.popper)
         this.popper.destroy()
         this.popper = null
       }, 300)
@@ -121,7 +122,6 @@ const popperEmitter = {
       if (this.type === 'split') {
         reference = this.reference = this.reference || this.$el.children[0].children[0]
         popper = this.$refs.popper
-        console.log('split', reference)
       } else {
         reference = this.reference = this.reference || this.$el.children[0]
         popper = this.$refs.popper
@@ -180,6 +180,7 @@ const popperEmitter = {
   beforeDestroy () {
     this.removeEvent()
     this.$refs.popper.remove()
+    console.log('this', this)
     this.destroy()
   }
 }
