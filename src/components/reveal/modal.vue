@@ -1,18 +1,20 @@
 <template>
 	<transition name="fade">
-		<div class="reveal-overlay" v-show="visible" ref="modal">
-			<div class="reveal" v-show="visible">
-				<header class="reveal-header">
-					<h3>{{title}}</h3><slot name="head"></slot>
-				</header>
-				<section class="reveal-body">
-					<slot name="body"></slot>
-				</section>
-				<footer v-if="$slots.footer">
-					<slot name="footer"></slot>
-				</footer>
-			 	<span class="close" @click="close">×</span>
-			</div>
+		<div class="reveal-overlay" v-show="visible" ref="modal" @click="close">
+			<transition name='slide-fade'>
+			  <div class="reveal" v-show="visible">
+          <header class="reveal-header">
+            <h3>{{title}}</h3><slot name="head"></slot>
+          </header>
+          <section class="reveal-body">
+            <slot name="body"></slot>
+          </section>
+          <footer v-if="$slots.footer">
+            <slot name="footer"></slot>
+          </footer>
+          <span class="close" @click="close">×</span>
+        </div>
+			</transition>
 		</div>
 	</transition>
 </template>
@@ -89,4 +91,13 @@
 	    text-align: center;
 	    line-height: 30px;
 	}
+	.slide-fade-enter-active {
+    transition: transform .5s;
+  }
+  .slide-fade-leave-active {
+    transition: transform .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  }
+  .slide-fade-enter, .slide-fade-leave-to {
+    transform: translateY(-10px)
+  }
 </style>

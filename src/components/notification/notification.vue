@@ -23,7 +23,7 @@
 <script>
   let color = {
     'success': 'success-color fa-check-circle',
-    'waring': 'warning-color fa-warning',
+    'warning': 'warning-color fa-warning',
     'info': 'info-color fa-info-circle',
     'error': 'alert-color fa-exclamation-circle'
   }

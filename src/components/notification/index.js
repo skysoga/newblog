@@ -7,7 +7,6 @@ let instances = []
 let seed = 1
 
 var Notification = function (options) {
-  console.log('options', options)
   if (Vue.prototype.$isServer) return
   options = options || {}
   let userOnClose = options.onClose
@@ -19,7 +18,6 @@ var Notification = function (options) {
   instance = new NotifyConstructor({
     data: options
   })
-  console.log('instance', instance)
   instance.id = id
   instance.vm = instance.$mount()
   document.body.appendChild(instance.vm.$el)
@@ -31,7 +29,6 @@ var Notification = function (options) {
 var arr = ['success', 'warning', 'info', 'error']
 arr.forEach(type => {
   Notification[type] = options => {
-    console.log('NotifyConstructor', options)
     if (typeof options === 'string') {
       options = {
         message: options

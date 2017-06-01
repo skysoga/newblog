@@ -27,8 +27,8 @@
             href: './index'
           },
           {
-            name: '群组',
-            href: './group'
+            name: '个人中心',
+            href: './infocenter'
           }
         ]
       }
@@ -37,7 +37,7 @@
 </script>
 <style scoped="" lang="less">
 	@import url("../../static/less/variable.less");
-	header{height: 60px;line-height: 60px;background: #fff;padding-top: 10px;}
+	header{height: 60px;line-height: 60px;background: #fff;padding-top: 10px;border-bottom: 1px solid #ddd;}
 	.logo{margin: 0;}
 	.logo a{font-family: "freight-sans-pro",sans-serif;color: @primary-color;}
 </style>

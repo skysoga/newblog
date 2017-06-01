@@ -23,7 +23,7 @@
   </label>
 </template>
 <script>
-  import Emitter from '../../../utils/emitter';
+  import Emitter from '../../../utils/emitter'
 
   export default {
     name: 'LgRadio',
@@ -39,45 +39,45 @@
       name: String
     },
 
-    data() {
+    data () {
       return {
         focus: false
-      };
+      }
     },
 
     computed: {
-      isGroup() {
-        let parent = this.$parent;
+      isGroup () {
+        let parent = this.$parent
         while (parent) {
           if (parent.$options.componentName !== 'LgRadioGroup') {
-            parent = parent.$parent;
+            parent = parent.$parent
           } else {
-            this._radioGroup = parent;
-            return true;
+            this._radioGroup = parent
+            return true
           }
         }
-        return false;
+        return false
       },
 
       model: {
-        get() {
-        	let a = this.isGroup ? this._radioGroup.value : this.value;
-          return this.isGroup ? this._radioGroup.value : this.value;
+        get () {
+          let a = this.isGroup ? this._radioGroup.value : this.value
+          return a
         },
-        set(val) {
+        set (val) {
           if (this.isGroup) {
-            this.dispatch('LgRadioGroup', 'input', [val]);
+            this.dispatch('LgRadioGroup', 'input', [val])
           } else {
-            this.$emit('input', val);
+            this.$emit('input', val)
           }
         }
       },
 
-      isDisabled() {
+      isDisabled () {
         return this.isGroup
           ? this._radioGroup.disabled || this.disabled
-          : this.disabled;
+          : this.disabled
       }
     }
-  };
+  }
 </script>

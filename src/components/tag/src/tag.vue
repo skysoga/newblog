@@ -109,7 +109,6 @@
       value (val, old) {
         let tmpTags = this.tags.map(t => t.val)
         if (val.length !== this.tags.length || JSON.stringify(val) !== JSON.stringify(tmpTags)) {
-          console.log('ddd')
           this.initTags(val)
         }
       },
@@ -155,12 +154,12 @@
         }
       },
       handleClose (tag) {
-        this.delsameTagindex(tag)
+        this.delsameTagindex(tag.val)
         this.tags.splice(this.tags.indexOf(tag), 1)
         this.$emit('input', this.tags.map(t => t.val))
       },
-      delsameTagindex (tag) {
-        var i = this.recTags.indexOf(tag.val)
+      delsameTagindex (val) {
+        var i = this.recTags.indexOf(val)
         var obj = this.saveTagindex
         let len = obj.length
         for (let j = 0; j < len; j++) {
@@ -177,7 +176,7 @@
       },
       showSpaninput (i) {
         i.inp = true
-        this.spanVal = ''
+        this.spanVal = i.val
         this.$nextTick(_ => {
           this.$refs.changeValue[0].focus()
         })
@@ -200,13 +199,16 @@
       changeTag (index) {
         this.tags[index].inp = false
         let val = this.spanVal ? this.spanVal : ''
-        if (!val) return
+        let oldval = this.tags[index].val
+        console.log(oldval)
+        if (!val || oldval === this.spanVal) return
         for (let i of this.tags) {
           if (i.val === val) {
             alert('已经存在了')
             return
           }
         }
+        this.delsameTagindex(oldval)
         this.tags[index].val = this.spanVal
         this.$emit('input', this.tags.map(t => t.val))
       }
@@ -214,8 +216,8 @@
   }
 </script>
 <style>
-	.lg-tag-box{margin-bottom: 1rem;}
-   .lg-tag-box>div:first-child{min-height:34px;border: #d2e1f9 1px solid;line-height: 34px;}
+	 .lg-tag-box{margin-bottom: 1rem;}
+   .lg-tag-box>div:first-child{min-height:37px;border: #d2e1f9 1px solid;line-height: 34px;}
    .lg-tag-box .recTags{margin-top: 6px;}
    .lg-tag{
 	    background-color: #e4e8f1;

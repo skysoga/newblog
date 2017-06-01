@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-  import Emitter from '../../../utils/emitter';
+  import Emitter from '../../../utils/emitter'
 
   export default {
     name: 'LgRadioGroup',
@@ -21,11 +21,11 @@
       disabled: Boolean
     },
     watch: {
-      value(value) {
-        this.$emit('change', value);
-        this.dispatch('LgFormItem', 'lg.form.change', [this.value]);
+      value (value) {
+        this.$emit('change', value)
+        this.dispatch('LgFormItem', 'lg.form.change', [this.value])
       }
     }
-  };
+  }
 </script>
 

@@ -37,8 +37,6 @@
 									<label class="h36 text-right">标签：</label>
 								</div>
 								<div class="large-20 small-24 column">
-								  {{grouptag}}
-								  <div @click="add">add</div>
 									<lg-tag v-model="grouptag" type="warning" :recTags="rectag"></lg-tag>
 								</div>
 							</div>
@@ -61,40 +59,85 @@
 								<div class="large-20 small-24 column">
 									<label>
 										<span class="margin-r h36 secondary-color" href="" title="19245个成员">已邀请19245个成员</span>
-										<a class="button small no-margin"><i class="fa fa-plus"></i> 邀请人员</a>
+										<a class="button small no-margin" @click="visible = true"><i class="fa fa-plus"></i> 邀请人员</a>
 									</label>
-									<div class="join_people margin-t">
-										<div class="row small-up-5 medium-up-5 large-up-10">
-										  <div class="column column-block">
-										    <a href="" title=""><img src="../../../static/img/1.jpg" alt=""></a>
-										  </div>
-										  <div class="column column-block">
-										    <a href="" title=""><img src="../../../static/img/2.jpg" alt=""></a>
-										  </div>
-										  <div class="column column-block">
-										    <a href="" title=""><img src="../../../static/img/3.png" alt=""></a>
-										  </div>
-										  <div class="column column-block">
-										    <a href="" title=""><img src="../../../static/img/4.jpg" alt=""></a>
-										  </div>
-										  <div class="column column-block">
-										    <a href="" title=""><img src="../../../static/img/1.jpg" alt=""></a>
-										  </div>
-										  <div class="column column-block">
-										    <a href="" title=""><img src="../../../static/img/2.jpg" alt=""></a>
-										  </div>
-										  <div class="column column-block">
-										    <a href="" title=""><img src="../../../static/img/3.png" alt=""></a>
-										  </div>
-										  <div class="column column-block">
-										    <a href="" title=""><img src="../../../static/img/4.jpg" alt=""></a>
-										  </div>
-										</div>
+									<div class="people_list margin-t10">
+									  <ul class="clearfix">
+									  	<li><img src="../../../static/img/1.jpg" alt="">
+									  	  <span>阿萨德</span>
+									  	  <i class="fa fa-close"></i>
+									  	</li>
+									  	<li><img src="../../../static/img/2.jpg" alt="">
+                        <span>阿二</span>
+                        <i class="fa fa-close"></i>
+                      </li>
+                      <li><img src="../../../static/img/3.png" alt="">
+                        <span>东大寺</span>
+                        <i class="fa fa-close"></i>
+                      </li>
+                      <li><img src="../../../static/img/4.jpg" alt="">
+                        <span>发发呆</span>
+                        <i class="fa fa-close"></i>
+                      </li>
+                      <li><img src="../../../static/img/1.jpg" alt="">
+                        <span>阿萨德</span>
+                        <i class="fa fa-close"></i>
+                      </li>
+                      <li><img src="../../../static/img/2.jpg" alt="">
+                        <span>阿二</span>
+                        <i class="fa fa-close"></i>
+                      </li>
+                      <li><img src="../../../static/img/3.png" alt="">
+                        <span>东大寺</span>
+                        <i class="fa fa-close"></i>
+                      </li>
+                      <li><img src="../../../static/img/4.jpg" alt="">
+                        <span>发发呆</span>
+                        <i class="fa fa-close"></i>
+                      </li>
+                      <li><img src="../../../static/img/1.jpg" alt="">
+                        <span>阿萨富士达德</span>
+                        <i class="fa fa-close"></i>
+                      </li>
+                      <li><img src="../../../static/img/2.jpg" alt="">
+                        <span>阿二阿萨德发送到分</span>
+                        <i class="fa fa-close"></i>
+                      </li>
+                      <li><img src="../../../static/img/3.png" alt="">
+                        <span>东阿斯蒂芬大寺</span>
+                        <i class="fa fa-close"></i>
+                      </li>
+                      <li><img src="../../../static/img/4.jpg" alt="">
+                        <span>发发生大幅发啊啊啊啊啊啊啊呆</span>
+                        <i class="fa fa-close"></i>
+                      </li>
+									  </ul>
 									</div>
 								</div>
 							</div>
+						  <div class="row margin-t">
+                <div class="large-4 small-24 column">
+                  <label class="text-right">成员资格审核：</label>
+                </div>
+                <div class="large-20 small-24 column">
+                    <lg-radio-group v-model="membership" class="block">
+                      <lg-radio :label="1" >聆花科技中的任何人都可以加入，而无需审核。</lg-radio>
+                      <lg-radio :label="2">所有成员可以添加或审核成员</lg-radio>
+                      <lg-radio :label="3">所有成员都能添加成员，但须经管理员或版主审核。</lg-radio>
+                    </lg-radio-group>
+                </div>
+              </div>
+              <div class="row margin-t">
+                <div class="large-4 small-24 column">
+                  <label class="text-right">帖子审核：</label>
+                </div>
+                <div class="large-20 small-24 column">
+                    <lg-checkbox v-model="postAudit">所有小组发帖必须经过管理员或版主审核才能发布。</lg-checkbox>
+                </div>
+              </div>
 						</div>
 					</section>
+					<lg-reveal title="fasdf" :open="visible" @revealClose="revealClose"></lg-reveal>
 					<a class="button" @click="open">notice</a>
 					<a class="button" @click="close">close</a>
 				</div>
@@ -106,6 +149,11 @@
   import LgHeader from '@/components/header'
   import Bg from '../login/bg.vue'
   import LgTag from '@/components/tag'
+  import LgReveal from '@/components/reveal'
+  import LgRadio from '@/components/radio'
+  import LgRadioGroup from '@/components/radio-group'
+  import LgCheckbox from '@/components/checkbox'
+  import LgCheckboxGroup from '@/components/checkbox-group'
   var aaa = {}
   export default {
     data () {
@@ -113,32 +161,40 @@
         groupname: '',
         groupdesc: '',
         grouptag: ['你好0', 'd', '你好3', '你好', '2', '顶顶顶'],
-        rectag: ['0', '1', '2', '你好3', '4', '顶顶顶'],
+        rectag: [],
         selected: 'A',
-        options: ['A', 'B']
+        options: ['A', 'B'],
+        visible: false,
+        membership: 1,
+        postAudit: false
       }
     },
     components: {
       LgHeader,
       Bg,
-      LgTag
+      LgTag,
+      LgReveal,
+      LgRadio,
+      LgRadioGroup,
+      LgCheckbox,
+      LgCheckboxGroup
     },
     mounted () {
     },
     methods: {
-      add () {
-        this.grouptag.push('11')
-      },
       open () {
         aaa = this.$notify.success({
           title: '成功',
           message: '这是一条成功的提示消息',
-          type: 'info',
+          type: 'warning',
           duration: 0
         })
       },
       close () {
         aaa.close()
+      },
+      revealClose () {
+        this.visible = false
       }
     }
   }
@@ -152,5 +208,6 @@
 	.mod-banner a.btn{position: absolute;bottom: 10px;right: 1rem;color: #fff;font-size: 12px;z-index: 2;}
 	
 	.form{padding: 1.5rem;}
+	.block.lg-radio-group>label{display: block;}
 </style>
 

@@ -1,8 +1,8 @@
-import Radio from './src/radio';
+import Radio from './src/radio'
 
 /* istanbul ignore next */
-Radio.install = function(Vue) {
-  Vue.component('lg-radio', Radio);
-};
+Radio.install = function (Vue) {
+  Vue.component('lg-radio', Radio)
+}
 
-export default Radio;
+export default Radio

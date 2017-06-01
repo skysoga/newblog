@@ -30,36 +30,36 @@
     },
     computed: {
       value: {
-        get() {
-          return this._radioGroup.value;
+        get () {
+          return this._radioGroup.value
         },
-        set(value) {
-          this._radioGroup.$emit('input', value);
+        set (value) {
+          this._radioGroup.$emit('input', value)
         }
       },
-      _radioGroup() {
-        let parent = this.$parent;
+      _radioGroup () {
+        let parent = this.$parent
         while (parent) {
           if (parent.$options.componentName !== 'LgRadioGroup') {
-            parent = parent.$parent;
+            parent = parent.$parent
           } else {
             return parent;
           }
         }
-        return false;
+        return false
       },
-      activeStyle() {
+      activeStyle () {
         return {
           backgroundColor: this._radioGroup.fill || '',
           borderColor: this._radioGroup.fill || '',
           color: this._radioGroup.textColor || ''
         };
       },
-      size() {
-        return this._radioGroup.size;
+      size () {
+        return this._radioGroup.size
       },
-      isDisabled() {
-        return this.disabled || this._radioGroup.disabled;
+      isDisabled () {
+        return this.disabled || this._radioGroup.disabled
       }
     }
   };
